@@ -84,12 +84,13 @@ void setup(){
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/form.html", String(), false, processor);
   });
-  server.on("/sample-rate", HTTP_POST, [](AsyncWebServerRequest *request)
-            {
-              String sps = request->getParam("sps", true)->value();
-              Serial.print(sps);
-              Serial.print("Recibido SPS");
-              request->send_P(200, "text/plain", "OK");
+  server.on("/sample-rate", HTTP_POST, [](AsyncWebServerRequest *request){
+              String sps;
+              if(request->hasParam("SPS", true)){
+                sps = request->getParam("SPS", true)->value();
+                Serial.println("init:SPS=" + sps);
+              }
+              request->send(204);
             });
 
   server.on("/form", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -116,16 +117,16 @@ void setup(){
   });
 
   // Route to set GPIO to HIGH
-  server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request){
-    digitalWrite(ledPin, HIGH);    
-    request->send(SPIFFS, "/index.html", String(), false, processor);
-  });
+  // server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request){
+  //   digitalWrite(ledPin, HIGH);    
+  //   request->send(SPIFFS, "/index.html", String(), false, processor);
+  // });
   
   // Route to set GPIO to LOW
-  server.on("/off", HTTP_GET, [](AsyncWebServerRequest *request){
-    digitalWrite(ledPin, LOW);    
-    request->send(SPIFFS, "/index.html", String(), false, processor);
-  });
+  // server.on("/off", HTTP_GET, [](AsyncWebServerRequest *request){
+  //   digitalWrite(ledPin, LOW);    
+  //   request->send(SPIFFS, "/index.html", String(), false, processor);
+  // });
 
   // Start server
   server.begin();

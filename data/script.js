@@ -27,18 +27,24 @@ buttonToggle.addEventListener("click", (event) => {
     let xhttp = new XMLHttpRequest()
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            // document.getElementById("temperature").innerHTML = this.responseText;
-            console.log(this)
+            console.log("GET:'/toggle':DONE")
         }
     };
     xhttp.open("GET", "/toggle", true)
     xhttp.send()
-
+    
     const sps = numberControlInput.value
     if (!isLogging) {
-        $.post("/sample-rate", {
-            sps: sps,
-        })
+        let xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 204) {
+                console.log("POST:'/sample-rate':DONE")
+            }
+        }
+        xhr.open('POST', "/sample-rate", true)
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+        const params = "SPS=" + sps
+        xhr.send(params)
     }
 })
 
@@ -46,10 +52,10 @@ setInterval(function ( ) {
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            isLogging = this.responseText === "true" ? true : false;
-            buttonToggle.checked = isLogging;
+            isLogging = this.responseText === "true" ? true : false
+            buttonToggle.checked = isLogging
         }
     };
-    xhttp.open("GET", "/state", true);
-    xhttp.send();
-    }, 75) ;
+    xhttp.open("GET", "/state", true)
+    xhttp.send()
+    }, 75) 
