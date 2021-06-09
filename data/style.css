@@ -172,7 +172,7 @@ input::-webkit-inner-spin-button {
 .number-element{
   display: inline-flex;
   align-items: baseline;
-  transform: translate(0px, 75px);
+  transform: translate(0px, -75px);
 }
 
 #sample-rate{
