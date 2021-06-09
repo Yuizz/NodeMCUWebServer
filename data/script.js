@@ -6,6 +6,7 @@ const numberControlPlus = document.getElementById("increase-sample-rate")
 const numberControlMinus = document.getElementById("decrease-sample-rate")
 const numberControlInput = document.getElementById("sample-rate")
 
+//The events to change the number input with the buttons
 numberControlPlus.addEventListener("click", (event) => {
     event.preventDefault();
     if (isLogging) return;
@@ -21,6 +22,7 @@ numberControlMinus.addEventListener("click", (event) => {
     numberControlInput.value = currentValue - step < 10 ? 10 :currentValue - step;
 })
 
+//The event on the toggle button for change the state
 buttonToggle.addEventListener("click", (event) => {
     event.preventDefault()
 
@@ -48,6 +50,7 @@ buttonToggle.addEventListener("click", (event) => {
     }
 })
 
+//Interval to consult the state
 setInterval(function ( ) {
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {

@@ -59,24 +59,24 @@ void setup(){
   }
 
   // Connect to Wi-Fi
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi..");
-  }
+  // WiFi.begin(ssid, password);
+  // while (WiFi.status() != WL_CONNECTED) {
+  //   delay(1000);
+  //   Serial.println("Connecting to WiFi..");
+  // }
 
   // Make the acces point(WiFi Network) with the name passed, you can also pass a password to it
-  // WiFi.softAP("TorqueDAQ");
+  WiFi.softAP("TorqueDAQ");
 
 
   // Print ESP32 Local IP Address
-  Serial.println(WiFi.localIP());
+  // Serial.println(WiFi.localIP());
 
   // Print IP for the server
-  // IPAddress myIP = WiFi.softAPIP(); 
-  // Serial.print("IP del acces point: ");
-  // Serial.println(myIP);
-  // Serial.println("WebServer iniciado...");
+  IPAddress myIP = WiFi.softAPIP(); 
+  Serial.print("IP del acces point: ");
+  Serial.println(myIP);
+  Serial.println("WebServer iniciado...");
 
 
   //The server endpoints, this should be request that the client could do
@@ -85,6 +85,7 @@ void setup(){
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/form.html", String(), false, processor);
   });
+
   server.on("/sample-rate", HTTP_POST, [](AsyncWebServerRequest *request){
     String sps;
     if(request->hasParam("SPS", true)){
